@@ -1,13 +1,12 @@
 import User from "../models/userModel.js"
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 
 export const signup = async (req, res)=>{
 
 const{username, email, password,confirmPassword,gender}=req.body
-let validUser 
-validUser = await User.findOne({ email });
+let validUser = await User.findOne({ email });
 if(validUser){
     return res.status(400).json({success:false, message:"user already exist"})
 }
@@ -36,7 +35,7 @@ try {
 
     await newUser.save()
 
-    res.status(201).json({
+    res.cookie("access_token",token ,{httpOnly:true}).status(201).json({
         _id:newUser._id,
         username: newUser.username,
         email:newUser.email,
