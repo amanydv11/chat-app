@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import authRoutes from './routes/authRoutes.js'
 import cookieParser from 'cookie-parser';
+import { errorHandler } from './utils/error.js';
 dotenv.config();
 const app = express();
 
@@ -32,4 +33,18 @@ app.get('/', (req,res)=>{
 app.listen(PORT,()=>{
     console.log("server is running" + PORT );
     
+})
+
+
+
+//error handel
+app.use((err,req,res,next)=>{
+    const statusCode = err.statusCode || 500
+    const message = err.message || "server not working"
+    console.log(res);
+     res.status(statusCode).json({
+        success: false,
+        statusCode,
+        message,
+    })
 })
