@@ -1,27 +1,13 @@
 import User from "../models/userModel.js"
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
 
 export const signup = async (req, res)=>{
 
 const{username, email, password,confirmPassword,gender}=req.body
-if (!username || !email || !password || !confirmPassword || !gender) {
-    return res.status(400).json({
-      success: false,
-      message: "All fields are required.",
-    });
-  }
-
 let validUser 
-try {
-    validUser = await User.findOne({ email });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Error checking user existence.",
-    });
-  }
+validUser = await User.findOne({ email });
 if(validUser){
     return res.status(400).json({success:false, message:"user already exist"})
 }
@@ -34,7 +20,7 @@ if(password !== confirmPassword){
     })
 }
 
-const hashedPassword = bcrypt.hash(password,10)
+const hashedPassword = bcrypt.hashSync(password,10)
 const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`
 const girlProfilePic= `https://avatar.iran.liara.run/public/girl?username=${username}`
 
