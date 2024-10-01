@@ -52,7 +52,7 @@ export const login = async (req, res,next)=>{
         if(!validUser){
            return next(errorHandler(404,"user not found"))
         }
-        const validPassword = bcrypt.compare(password,hashedPassword)
+        const validPassword = bcrypt.compare(password,validUser.password)
         if(!validPassword){
             return next(errorHandler(401,"wrong credentials"))
         }
