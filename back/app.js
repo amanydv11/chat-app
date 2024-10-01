@@ -2,8 +2,9 @@ import express from 'express'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import authRoutes from './routes/authRoutes.js'
+import messRoutes from './routes/messRoutes.js'
 import cookieParser from 'cookie-parser';
-import { errorHandler } from './utils/error.js';
+
 dotenv.config();
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(cookieParser());
 
 
 app.use('/api/auth',authRoutes);
+app.use('/api/message',messRoutes);
 
 
 
