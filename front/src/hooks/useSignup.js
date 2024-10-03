@@ -25,7 +25,7 @@ const handleInputErrors =({username,
 }
 const useSignup =()=>{
     const [loading, setLoading]= useState(false)
-    const{authUser, setAuthUser} = useAppContext()
+    const{setAuthUser} = useAppContext()
 
     const signup= async({username, email, password, confirmPassword,gender})=>{
         const checkError =handleInputErrors({
@@ -56,6 +56,11 @@ const useSignup =()=>{
             if(data.error){
                 throw new Error(data.error)
             }
+
+localStorage.setItem("user",JSON.stringify(data))
+setAuthUser(data)
+
+
         } catch (error) {
             toast.error(error.message)
         }finally{

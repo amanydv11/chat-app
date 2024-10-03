@@ -75,8 +75,10 @@ const handleSubmit = async(e) =>{
          <p> <Link to={"/login"} className='text-sm font-bold hover:text-blue-700 mt-1 inline-block'>
           Login</Link></p>
           </div>
+          <div>
+          <button className='btn btn-block text-md btn-sm mt-2 bg-black  text-white' disabled={loading} > {loading ? <span className=''></span> :  "Sign Up" }</button>
+          </div>
           
-          <div className='btn btn-block text-md btn-sm mt-2 bg-black  text-white '>Sign Up</div>
           
         </form>
       </div>
