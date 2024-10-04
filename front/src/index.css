@@ -3,5 +3,8 @@
 @tailwind utilities;
 
 body{
-    background-color: rgb(32, 117, 103);
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("/bg.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
 }

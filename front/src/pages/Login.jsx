@@ -42,7 +42,7 @@ const Login = () => {
           </div>
           
           <div className='btn btn-block text-md btn-sm mt-2 bg-black text-white ' disabled ={loading}>
-            {loading ? (<span className=''></span>): "Login" }
+            {loading ? (<span className='loading loading-spinner '></span>): "Login" }
           </div>
         </form>
       </div>

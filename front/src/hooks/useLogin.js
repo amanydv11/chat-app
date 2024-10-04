@@ -1,7 +1,7 @@
 import { useState } from "react"
 import {toast} from "react-toastify"
 import { useAppContext } from "../context/AppContext"
-const handleInputErrors =({email,password})=>{
+const handleInputErrors =(email,password)=>{
     if(!email || !password){
         toast.error("fill all the fields");
         return true

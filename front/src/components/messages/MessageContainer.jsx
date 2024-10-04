@@ -1,14 +1,23 @@
 import React from 'react'
 import Messages from './Messages'
 import Messageinput from './Messageinput'
+import { IoIosVideocam } from "react-icons/io";
+import { MdAddCall } from "react-icons/md";
 const MessageContainer = () => {
   return (
-    <div className="md:min-w-[400px] mt-3.5 flex flex-col">
+    <div className="md:min-w-[400px] flex flex-col border border-gray-600 rounded-lg">
     <>
-     <div className="bg-slate-500 rounded-t-lg px-4 py-2 mb-2">
-        <span className='label-text'>To:</span>
-        <span className='text-gray-900'>Pinku</span>
+     <div className=" justify-between items-center flex rounded-t-lg px-3 py-3 mb-2">
+       <div>
+      <span className='font-serif label-text text-[18px]'>To:</span>
+       <span className='text-white'>Pinku</span>
+       </div> 
+        <div className="flex gap-4 cursor-pointer ">
+          <IoIosVideocam />
+          <MdAddCall />
+        </div>
         </div> 
+        
         <Messages/>
        <Messageinput/>
     </>
