@@ -1,6 +1,7 @@
 import { useState } from "react"
 import {toast} from "react-toastify"
 import { useAppContext } from "../context/AppContext"
+
 const handleInputErrors =(email,password)=>{
     if(!email || !password){
         toast.error("fill all the fields");
@@ -10,7 +11,8 @@ const handleInputErrors =(email,password)=>{
 }
 export const useLogin =()=>{
     const[loading, setLoading]= useState(false)
-const {setAuthUser}= useAppContext()
+
+    const {setAuthUser}= useAppContext()
 
     const login = async (email, password)=>{
        const checkError = handleInputErrors({
@@ -22,6 +24,7 @@ const {setAuthUser}= useAppContext()
     }
     try {
         setLoading(true)
+        
         const res = await fetch('/api/auth/login',{
             method:"POST",
             headers:{"Content-Type": "application/json"},
