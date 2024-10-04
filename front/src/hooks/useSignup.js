@@ -8,17 +8,16 @@ const handleInputErrors =({username,
     confirmPassword,
     gender})=>{
     if(!username || !email || !password || !confirmPassword || !gender){
-        toast.error("fill all the fields");
-        return false
+    return true
     }
     if(password !== confirmPassword){
         toast.error("Passwords do not match");
-        return false
+        return true
     }
 
     if (password.length < 6) {
 		toast.error("Password must be at least 6 characters");
-		return false;
+		return true
 	}
     
     return false
