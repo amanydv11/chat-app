@@ -3,27 +3,31 @@ import {toast} from 'react-toastify'
 
 export const useGetConversation = ()=>{
     const[loading, setLoading]= useState(false)
-    const [conversations, setConversations]= useState([])
+    const [conversation, setConversation]= useState([])
     useEffect(()=>{
         const getConversations = async ()=>{
             try {
                 setLoading(true)
 
-                const res = await fetch('/api/users')
+                const res = await fetch("/api/users");
 
-                    const data = res.json()
+                    const data = await res.json()
+
                 if(data.error){
                     throw new Error(data.error)
                 }
-                setConversations(data)
-            } catch (error) {
+
+                setConversation(data.users)
+            } 
+            catch (error) {
                 toast.error(error.message)
             }
+
             finally{
                 setLoading(false)
             }
         }
-        getConversations()
-    },[])
-    return{loading, conversations}
+        getConversations();
+    },[]);
+    return{loading, conversation};
 }

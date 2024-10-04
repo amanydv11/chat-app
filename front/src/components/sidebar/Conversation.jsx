@@ -1,9 +1,11 @@
 import React from 'react'
 import useConversation from '../../zustand/useConversation'
+
+
 const Conversation = ({conversation,lastIndex}) => {
 const {selectedConversation, setSelectedConversation} =useConversation()
 
-const isSelected = selectedConversation ?._id === conversation._id
+const isSelected = selectedConversation?._id === conversation._id
   return (
     <>
      <div className={`flex gap-2 items-start hover:bg-blue-500 rounded p-2 py-1 cursor-pointer ${isSelected ? "bg-sky-500" :""}`}

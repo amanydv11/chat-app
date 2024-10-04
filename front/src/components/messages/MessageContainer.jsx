@@ -37,13 +37,12 @@ const MessageContainer = () => {
   )
 }
 const NoChatSelected =()=>{
-  const {selectedConversation, setSelectedConversation} = useConversation()
   return(
     <div className="flex items-center font-serif justify-center w-full h-full">
       <div className="px-4 text-center sm:text-lg ms:text-xl text-white font-semibold flex flex-col items-center gap-2">
-        <p>Welcome {selectedConversation?.username}</p>
+        <p>Welcome</p>
         <p>Select a chat to start message</p>
-        <TiMessages />
+        <TiMessages className='text-3xl md:text-6xl text-center' />
       </div>
     </div>
   )
