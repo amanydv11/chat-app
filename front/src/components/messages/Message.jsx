@@ -1,28 +1,36 @@
 import React from 'react'
 import Avtarimg from '../../assets/man.png'
-const Message = () => {
-  return (<>
-    <div className="chat chat-start" >
+import {useAppContext} from '../../context/AppContext'
+import useConversation from '../../zustand/useConversation';
+const Message = ({message}) => {
+
+const {authUser} =useAppContext()
+
+	const {selectedConversation} = useConversation();
+	const messageFromMe = message.senderId === authUser._id
+
+	const chatClassName = messageFromMe ? "chat-end" : "chat-start"
+  
+	const profilePic = messageFromMe
+	  ? authUser.profilePic
+	  : selectedConversation?.profilePic
+  
+	const msgBgColor = messageFromMe ? "bg-green-500" : ""
+  
+	const formattedTime = formatTime(message.createdAt)
+
+  return (
+  <>
+    <div className={`chat ${chatClassName} `} >
 			<div className='chat-image avatar'>
 				<div className='w-10 rounded-full'>
-					<img alt='Tailwind CSS chat bubble component' src={Avtarimg} />
+					<img alt='Tailwind CSS chat bubble component' src={profilePic} />
 				</div>
 			</div>
-			<div className={`chat-bubble text-white  pb-2`}>Hello</div>
-			<div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>Send 10:40</div>
+			<div className={`chat-bubble text-white  pb-2 ${msgBgColor}`}>{message.message}</div>
+
+			<div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>Send {formattedTime}</div>
 		</div>
-		<div className="chat chat-end">
-		<div className="chat-image avatar">
-		  <div className="w-10 rounded-full">
-			<img
-			  alt="Tailwind CSS chat bubble component"
-			  src={Avtarimg} />
-		  </div>
-		</div>
-		
-		<div className="chat-bubble text-white  pb-2">I hate you!</div>
-		<div className="chat-footer opacity-50">Seen 12:46</div>
-	  </div>
 	  </>
   )
 }
