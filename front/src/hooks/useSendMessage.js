@@ -4,7 +4,7 @@ import {toast} from 'react-toastify'
 
 const useSendMessage = () => {
   const [loading, setLoading]= useState(false)
-  const[messages,setMessage,selectedConversation] =useConversation()
+  const{messages,setMessages,selectedConversation} =useConversation()
  const sendMessage =async(message)=>{
     try {
         setLoading(true)
@@ -22,7 +22,7 @@ const useSendMessage = () => {
         if(data.error){
             throw new Error(data.error)
         }
-        setMessage([...messages,data])
+        setMessages([...messages,data])
     } catch (error) {
         toast.error(error.message)
     }

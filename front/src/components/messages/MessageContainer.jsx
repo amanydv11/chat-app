@@ -30,6 +30,7 @@ const MessageContainer = () => {
         </div> 
         
         <Messages/>
+        
        <Messageinput/>
     </>
     )}
