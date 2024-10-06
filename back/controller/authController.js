@@ -6,16 +6,19 @@ import {errorHandler} from '../utils/error.js'
 export const signup = async (req, res, next)=>{
 
 const{username, email, password,confirmPassword,gender}=req.body
-let validUser = await User.findOne({ email });
+try {
+const validUser = await User.findOne({ email });
+
 if(validUser){
-    return next(errorHandler(400,"user exist"))
+    return res.status(400).json({message:"User already existed"})
 }
 
 if(password !== confirmPassword){
-    return next(errorHandler(400,"password does not match "))
+    return res.status(400).json({message:"password do not match"})
 }
 
-const hashedPassword = bcrypt.hashSync(password,10)
+const hashedPassword = await bcrypt.hash(password,10)
+
 const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`
 const girlProfilePic= `https://avatar.iran.liara.run/public/girl?username=${username}`
 
@@ -26,11 +29,10 @@ const newUser =new User({
     gender,
     profilePic:gender=== "male" ? boyProfilePic :girlProfilePic,
 })
-try {
+
     const token = jwt.sign({id: newUser._id}, process.env.JWT_SECRET)
 
     await newUser.save()
-
     res.cookie("access_token",token ,{httpOnly:true}).status(201).json({
         _id:newUser._id,
         username: newUser.username,
@@ -46,16 +48,20 @@ try {
 
 }
 export const login = async (req, res,next)=>{
-    try {
-        const{email, password} = req.body
-        const validUser = await User.findOne({email})
+        const{email, password} = req.body;
+
+        try {
+
+        const validUser = await User.findOne({email});
         if(!validUser){
-           return next(errorHandler(404,"user not found"))
+           return res.status(400).json({message:"user not found"})
         }
-        const validPassword = bcrypt.compare(password,validUser.password)
+
+        const validPassword =await bcrypt.compare(password,validUser.password)
         if(!validPassword){
-            return next(errorHandler(401,"wrong credentials"))
+            return res.json({message:"password is incorrect"})
         }
+        
         const token = jwt.sign({id:validUser._id},process.env.JWT_SECRET)
 
         res.cookie("access_token",token,{httpOnly:true}).status(200).json({

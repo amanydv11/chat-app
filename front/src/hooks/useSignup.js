@@ -27,6 +27,7 @@ const useSignup =()=>{
     const{setAuthUser} = useAppContext()
 
     const signup= async({username, email, password, confirmPassword,gender})=>{
+        
         const checkError =handleInputErrors({
             username,
             email,
@@ -52,13 +53,13 @@ const useSignup =()=>{
             })
             const data= await res.json()
 
-            if(data.error){
-                throw new Error(data.error)
+            if(!res.ok){
+                throw new Error(data.message || 'Something went wrong')
             }
 
 localStorage.setItem("user",JSON.stringify(data))
 setAuthUser(data)
-
+toast.success("Signup successful!");
 
         } catch (error) {
             toast.error(error.message)

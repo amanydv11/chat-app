@@ -2,7 +2,7 @@ import { useState } from "react"
 import {toast} from "react-toastify"
 import { useAppContext } from "../context/AppContext"
 
-const handleInputErrors =(email,password)=>{
+const handleInputErrors = (email,password)=>{
     if(!email || !password){
         toast.error("fill all the fields");
         return true
@@ -15,12 +15,12 @@ export const useLogin =()=>{
     const {setAuthUser}= useAppContext()
 
     const login = async (email, password)=>{
-       const checkError = handleInputErrors({
+       const checkError = handleInputErrors(
         email,
         password,
-       })
+       )
        if(checkError){
-        return
+        return false
     }
     try {
         setLoading(true)
@@ -35,14 +35,15 @@ export const useLogin =()=>{
         })
         const data= await res.json()
 
-        if(data.error){
-            throw new Error(data.error)
+        if(!res.ok){
+            throw new Error(data.message || "login failed. Please try again")
         }
         localStorage.setItem("user",JSON.stringify(data))
 setAuthUser(data)
-
+return true
     } catch (error) {
         toast.error(error.message)
+        return false
     }
     finally{
         setLoading(false)

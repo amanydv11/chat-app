@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {useLogin} from '../hooks/useLogin'
 const Login = () => {
   const [email , setEmail]= useState("")
   const [password, setPassword] = useState("")
-
-  
   const{login,loading}= useLogin()
+  const navigate = useNavigate()
 
   const handleSubmit = async(e)=>{
     e.preventDefault()
 
-    await login(email,password)
+  const success =  await login(email,password)
+  if(success){
+    navigate('/')
+  }
   }
   return (
     <div className='flex flex-col items-center justify-center min-w-96 mx-auto'>
@@ -40,12 +42,17 @@ const Login = () => {
           <div className='flex mt-2 gap-[100px]'>
           <p className='mt-1  text-black'>{"Don't"} have an account ? </p>
          <p> <Link to={"/signup"} className='text-sm font-bold hover:text-blue-700 mt-1 inline-block'>
-          SignUp</Link></p>
+          SignUp
+          </Link>
+          </p>
           </div>
           
-          <div className='btn btn-block text-md btn-sm mt-2 bg-black text-white ' disabled ={loading}>
+          <button
+          type='submit'
+           className='btn btn-block text-md btn-sm mt-2 bg-black text-white '
+            disabled ={loading}>
             {loading ? (<span className='loading loading-spinner '></span>): "Login" }
-          </div>
+          </button>
         </form>
       </div>
     </div>

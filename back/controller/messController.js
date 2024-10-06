@@ -24,11 +24,15 @@ export const sendMessage = async (req,res,next)=>{
             receiverId,
             message
         })
-        if (newMessage) {
-            conversation.message.push(newMessage._id)
-        }
+        
+       
         //to save the message
-        await Promise.all([conversation.save(),newMessage.save()])
+        await Promise.all([newMessage.save(),
+            Conversation.updateOne(
+                { _id: conversation._id },
+                { $push: { message: newMessage._id } } // Push the message ID into the conversation
+            ),
+        ])
 
         const receiverSocketId = getReceiverSocketId(receiverId)
         if(receiverSocketId){
@@ -37,6 +41,8 @@ export const sendMessage = async (req,res,next)=>{
 
         res.status(201).json(newMessage)
     } catch (error) {
+        console.error(error); // Log error for debugging
+        res.status(500).json({ error: "Failed to send message" }); // Send appropriate error response
         next(error)
     }
 }

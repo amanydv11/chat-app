@@ -22,7 +22,11 @@ if(authUser){
     setSocket(socket)
 socket.on("getOnlineUsers",(users)=>{
     setOnlineUsers(users)
-})
+});
+socket.on("newMessage", (message) => {
+    console.log("New message received:", message); // Handle incoming message
+    // Add logic to update your UI with the new message
+});
 
     return()=> socket.close()
 }else{
