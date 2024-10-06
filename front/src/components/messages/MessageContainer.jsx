@@ -12,6 +12,8 @@ const MessageContainer = () => {
     return () => setSelectedConversation(null)
   },[setSelectedConversation])
 
+
+
   return (
     <div className="md:min-w-[400px] flex flex-col border border-gray-600 rounded-r-lg border-l-0 ">
       {!selectedConversation ? (
@@ -24,8 +26,10 @@ const MessageContainer = () => {
        <span className='text-white'>{selectedConversation?.username}</span>
        </div> 
         <div className="flex gap-4 cursor-pointer ">
-          <IoIosVideocam />
-          <MdAddCall />
+        <button >
+                <IoIosVideocam />
+              </button>
+          <button><MdAddCall /></button>
         </div>
         </div> 
         
