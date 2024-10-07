@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Messages from './Messages'
 import Messageinput from './Messageinput'
 import { IoIosVideocam } from "react-icons/io";
@@ -6,14 +6,22 @@ import { MdAddCall } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import useConversation from '../../zustand/useConversation';
 import { useAppContext } from '../../context/AppContext';
+import ReactPlayer from 'react-player'
 const MessageContainer = () => {
   const {selectedConversation, setSelectedConversation} = useConversation()
 
+const[myStream, setMyStream] =useState()
   useEffect(()=>{
     return () => setSelectedConversation(null)
   },[setSelectedConversation])
 
-
+const handleCall = useCallback(async ()=>{
+const stream = await navigator.mediaDevices.getUserMedia({
+  audio:true,
+   video:true
+  })
+setMyStream(stream)
+},[])
 
   return (
     <div className="md:min-w-[400px] flex flex-col border border-gray-600 rounded-r-lg border-l-0 ">
@@ -27,9 +35,15 @@ const MessageContainer = () => {
        <span className='text-white'>{selectedConversation?.username}</span>
        </div> 
         <div className="flex gap-4 cursor-pointer ">
-        <button >
+        <button onClick={handleCall} >
                 <IoIosVideocam />
               </button>
+              {
+                myStream && <ReactPlayer playing muted 
+                height='300px'
+                 width='400px'
+                 url={myStream}/>
+              }
           <button><MdAddCall /></button>
         </div>
         </div> 
