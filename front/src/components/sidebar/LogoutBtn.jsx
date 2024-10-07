@@ -6,11 +6,11 @@ const LogoutBtn = () => {
 
 
   return (
-    <div className='mt-auto'>
-      {!loading ?  <TbLogout2 className='w-6 h-6 text-white cursor-pointer' onClick={logout} />
-      :( <span className=''></span>
-
-      )}
+    <div className='mt-auto flex gap-1'>
+      <div><TbLogout2 className='w-6 h-6 text-white cursor-pointer' onClick={logout}/></div> 
+      <div className='text-white '>Logout</div>
+      
+      
   
     </div>
   )

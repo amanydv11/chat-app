@@ -5,6 +5,7 @@ import { IoIosVideocam } from "react-icons/io";
 import { MdAddCall } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
 import useConversation from '../../zustand/useConversation';
+import { useAppContext } from '../../context/AppContext';
 const MessageContainer = () => {
   const {selectedConversation, setSelectedConversation} = useConversation()
 
@@ -42,10 +43,11 @@ const MessageContainer = () => {
   )
 }
 const NoChatSelected =()=>{
+  const { authUser } = useAppContext();
   return(
     <div className="flex items-center font-serif justify-center w-full h-full">
       <div className="px-4 text-center sm:text-lg ms:text-xl text-white font-semibold flex flex-col items-center gap-2">
-        <p>Welcome</p>
+        <p>Welcome!!<br/> {authUser.username} </p>
         <p>Select a chat to start message</p>
         <TiMessages className='text-3xl md:text-6xl text-center' />
       </div>
