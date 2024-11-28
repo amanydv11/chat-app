@@ -1,28 +1,27 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import Messages from './Messages'
 import Messageinput from './Messageinput'
+import VideoCall from '../call/VideoCall';
 import { IoIosVideocam } from "react-icons/io";
 import { MdAddCall } from "react-icons/md";
 import { TiMessages } from "react-icons/ti";
+import { ImCross } from "react-icons/im"
 import useConversation from '../../zustand/useConversation';
 import { useAppContext } from '../../context/AppContext';
-import ReactPlayer from 'react-player'
+import Modal from "react-modal";
+
+Modal.setAppElement("#root");
 const MessageContainer = () => {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   const {selectedConversation, setSelectedConversation} = useConversation()
 
-const[myStream, setMyStream] =useState()
   useEffect(()=>{
     return () => setSelectedConversation(null)
   },[setSelectedConversation])
-
-const handleCall = useCallback(async ()=>{
-const stream = await navigator.mediaDevices.getUserMedia({
-  audio:true,
-   video:true
-  })
-setMyStream(stream)
-},[])
-
   return (
     <div className="md:min-w-[400px] flex flex-col border border-gray-600 rounded-r-lg border-l-0 ">
       {!selectedConversation ? (
@@ -35,16 +34,36 @@ setMyStream(stream)
        <span className='text-white'>{selectedConversation?.username}</span>
        </div> 
         <div className="flex gap-4 cursor-pointer ">
-        <button onClick={handleCall} >
-                <IoIosVideocam />
-              </button>
-              {
-                myStream && <ReactPlayer playing muted 
-                height='300px'
-                 width='400px'
-                 url={myStream}/>
-              }
-          <button><MdAddCall /></button>
+      <button onClick={openModal}><IoIosVideocam /></button>
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        style={{
+          content: {
+            top: "50%",
+            left: "50%",
+            right: "auto",
+            bottom: "auto",
+            marginRight: "-50%",
+            transform: "translate(-50%, -50%)",
+            width: "80%",
+            height: "70",
+          },
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.75)",
+          },
+        }}
+      >
+        <button onClick={closeModal} style={{ float: "right" }}>
+        <ImCross />
+        </button>
+        <VideoCall onEndCall={closeModal} />
+      </Modal>
+
+
+          <button>
+            <MdAddCall />
+            </button>
         </div>
         </div> 
         
